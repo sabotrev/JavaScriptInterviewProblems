@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Title</title>
+</head>
+<body>
+    <div id='box' style="background-color:red; width: 100px; height: 100px;"></div>
+</body>
+</html>
+
+<script>
+    const moveElement = (duration, distance, element) => {
+        const start = performance.now();
+
+        const move = (currentTime = 0) => {
+            console.log(currentTime);
+            const elapsed = currentTime - start;
+            const progress = elapsed / duration;
+            const amountToMove = progress * distance;
+
+            element.style.transform = `translateX(${amountToMove}px)`;
+
+            if (amountToMove < distance) {
+                requestAnimationFrame(move);
+            }
+        }
+        requestAnimationFrame(move)
+    }
+
+    moveElement(5000, 500, document.getElementById('box'));
+</script>

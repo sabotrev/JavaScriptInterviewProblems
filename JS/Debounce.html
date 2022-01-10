@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Debounce Example</title>
+    </head>
+    <body>
+        <input type="text" onkeyup="debounce(showSent, 2000);" />
+        <span id="debounceText" style="display: none">Debounce sent now.</span>
+    </body>
+</html>
+<script type="text/javascript">
+    let timeoutId;
+    function debounce(func, delay) {
+        const args = arguments;
+        return (function () {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout(() => func(args), delay);
+        })();
+    }
+
+    let debounceText = document.getElementById('debounceText');
+
+    const showSent = () => {
+        console.log('text up');
+        debounceText.style.display = 'block';
+        setTimeout(() => (debounceText.style.display = 'none'), 2000);
+    };
+</script>

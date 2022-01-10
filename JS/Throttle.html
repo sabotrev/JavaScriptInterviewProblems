@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Throttle Example</title>
+        <button type="button" id="buttonExample">Click Me</button>
+        <span id="throttleText">Throttle time sent: </span>
+    </head>
+    <body></body>
+</html>
+<script type="text/javascript">
+    const button = document.getElementById('buttonExample');
+    const throttleText = document.getElementById('throttleText');
+
+    // const throttle = (func, delay) => {
+    //     let last = 0;
+    //
+    //     return (...args) => {
+    //         const now = new Date().getTime();
+    //         const timeSinceLastAction = now - last;
+    //         if (timeSinceLastAction < delay) {
+    //             return;
+    //         }
+    //         last = now;
+    //         return func(...args);
+    //     };
+    // };
+
+    const throttle2 = (func, delay) => {
+        let timer;
+        return function (...args) {
+            if (timer) {
+                return;
+            }
+            timer = setTimeout(() => {
+                func(...args);
+                timer = null;
+            }, delay);
+        };
+    };
+
+    const showSent = (message) => {
+        console.log('text up, message: ', message);
+        throttleText.innerText = `${
+            throttleText.innerText
+        } + \n + ${new Date().toLocaleTimeString()}`;
+    };
+
+    button.addEventListener(
+        'click',
+        // throttle(() => showSent('hi'), 3000)
+        throttle2(() => showSent('hi'), 3000)
+    );
+</script>
