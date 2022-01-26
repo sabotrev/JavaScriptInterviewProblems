@@ -9,12 +9,13 @@ const groupAnagrams = (strs) => {
         if (!map.has(sorted)) {
             map.set(sorted, [strs[i]]);
         } else {
-            map.get(sorted).push(strs[i])
+            map.get(sorted).push(strs[i]);
         }
     }
+    console.log(map);
 
     return [...map.values()];
-}
+};
 
 /*
     Time Complexity: O (n m log(m))
@@ -22,4 +23,4 @@ const groupAnagrams = (strs) => {
     m = size of largest word
  */
 
-console.log(groupAnagrams(["eat","tea","tan","ate","nat","bat"]));
+console.log(groupAnagrams(['eat', 'tea', 'tan', 'ate', 'nat', 'bat']));

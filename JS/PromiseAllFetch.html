@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Title</title>
+    </head>
+    <body></body>
+</html>
+<script type="text/javascript">
+    const API_BASE = 'https://jsonplaceholder.typicode.com';
+    function fetchUserData(userId) {
+        const urls = [
+            `${API_BASE}/users/${userId}/posts`,
+            `${API_BASE}/users/${userId}/albums`,
+        ];
+        return Promise.all(urls.map((url) => fetch(url)));
+    }
+    fetchUserData(1)
+        .then((responses) => {
+            return Promise.all(
+                responses.map((response) => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        return Promise.reject(
+                            new Error(
+                                `Unexpected status code: ${response.status} ${response.statusText} for ${response.url}`
+                            )
+                        );
+                    }
+                })
+            );
+        })
+        .then(([posts, albums]) => {
+            // process your data as necessary
+            console.log('posts', posts);
+            console.log('albums', albums);
+        })
+        .catch((reason) => console.error(reason.message));
+</script>
