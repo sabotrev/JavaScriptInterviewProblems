@@ -7,26 +7,31 @@ class Node {
 }
 
 const cloneGraph = (node) => {
-    let queue = []; // add: unshift(node), pop: pop()
-    let visited = new Map();
-    queue.unshift(node);
-    visited.set(node.val, new Node(node.val));
-
-    while (queue.length > 0) {
-        let node = queue.pop();
-
-        for (let i = 0; i < node.neighbors.length; i++) {
-            let neighborNode = node.neighbors[i];
-            if (!visited.has(neighborNode.val)) {
-                visited.set(neighborNode.val, new Node(neighborNode.val));
-                queue.unshift(neighborNode);
-            }
-            let existingVal = visited.get(node.val);
-            existingVal.neighbors.push(visited.get(neighborNode.val));
+    let visited = new Map(); // <Original node, Cloned node>
+    const dfs = (node) => {
+        if (node == null) {
+            return node;
         }
-    }
-    console.log(visited);
-    return visited.get(node.val);
+
+        // If the node was already visited before.
+        // Return the clone from the visited dictionary.
+        if (visited.has(node)) {
+            return visited.get(node);
+        }
+
+        // If NOT visited, construct the new node.
+        let cloneNode = new Node(node.val, []);
+        // The key is original node and value being the clone node.
+        visited.set(node, cloneNode);
+
+        // Iterate through the neighbors to generate their clones
+        // and prepare a list of cloned neighbors to be added to the cloned node.
+        for (const neighbor of node.neighbors) {
+            cloneNode.neighbors.push(dfs(neighbor));
+        }
+        return cloneNode;
+    };
+    return dfs(node);
 };
 
 let adjList = [
