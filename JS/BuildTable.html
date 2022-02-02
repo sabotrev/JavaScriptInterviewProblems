@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Build Table</title>
+    </head>
+    <body></body>
+</html>
+<script>
+    const body = document.body;
+    const documentFragment = new DocumentFragment();
+    const table = document.createElement('table');
+    documentFragment.appendChild(table);
+
+    let n = 5;
+
+    for (let i = 0; i < n; i++) {
+        const row = table.insertRow(i);
+        for (let j = 0; j < n; j++) {
+            const cell = row.insertCell(j);
+            cell.innerHTML = `i: ${i}, j: ${j}`;
+            cell.style.border = 'solid';
+        }
+    }
+
+    table.style.border = 'solid';
+
+    body.appendChild(table);
+</script>

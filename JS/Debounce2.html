@@ -17,8 +17,7 @@
         let timer;
         return function (...args) {
             if (timer) {
-                // clearTimeout(timer);
-                return;
+                clearTimeout(timer);
             }
             timer = setTimeout(() => {
                 func(...args);

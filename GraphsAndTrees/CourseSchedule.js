@@ -1,57 +1,44 @@
 const canFinish = (numCourses, prerequisites) => {
-    let preMap = new Map();
+    let preMap = new Map(); // <Prereq, [Courses Array]>
+    // In Degree allows us to track if a node has dependencies or not.
+    let indegreeArray = Array(numCourses).fill(0); // Index
     let queue = [];
     for (let i = 0; i < prerequisites.length; i++) {
         let course = prerequisites[i][0];
         let prereq = prerequisites[i][1];
-        if (!preMap.has(course)) {
-            preMap.set(course, []);
+        if (!preMap.has(prereq)) {
+            preMap.set(prereq, []);
         }
-        let prereqArray = preMap.get(course);
-        prereqArray.push(prereq);
-        preMap.set(course, prereqArray);
-    }
-    for (let i = 0; i < prerequisites.length; i++) {
-        if (!preMap.has(i)) {
-            preMap.set(i, []);
-            queue.unshift(i);
-        }
+        let prereqArray = preMap.get(prereq);
+        prereqArray.push(course);
+        preMap.set(prereq, prereqArray);
+
+        indegreeArray[course]++;
     }
 
-    console.log(preMap);
-    console.log(queue);
+    // queue contains nodes with no incoming edges
+    for (let i = 0; i < indegreeArray.length; i++) {
+        if (indegreeArray[i] === 0) {
+            queue.push(i);
+        }
+    }
 
-    while (queue.length !== 0) {
-        const top = queue.pop();
+    let count = 0;
 
-        for (let i = 0; i < prerequisites.length; i++) {
-            let course = prerequisites[i][0];
-            let prereq = prerequisites[i][1];
-            if (prereq === top) {
-                let prereqArray = preMap.get(course);
-                prereqArray = removeFromArray(prereqArray, prereq);
-                preMap.set(course, prereqArray);
-                if (prereqArray.length === 0) {
-                    queue.unshift(course);
+    while (queue.length) {
+        count++;
+        const course = queue.shift();
+        if (preMap.has(course)) {
+            for (const prereq of preMap.get(course)) {
+                indegreeArray[prereq]--;
+                if (indegreeArray[prereq] === 0) {
+                    queue.push(prereq);
                 }
             }
         }
     }
 
-    let count = 0;
-    for (let [key, value] of preMap) {
-        if (value.length === 0) {
-            count++;
-        } else {
-            return false;
-        }
-    }
-
-    return count === numCourses;
-};
-
-const removeFromArray = (arr, numberToRemove) => {
-    return arr.filter((number) => number !== numberToRemove);
+    return numCourses === count;
 };
 
 /*
@@ -60,18 +47,26 @@ const removeFromArray = (arr, numberToRemove) => {
  */
 
 // console.log(canFinish(2, [[1, 0]])); // true
-console.log(
-    canFinish(5, [
-        [0, 1],
-        [0, 2],
-        [1, 3],
-        [1, 4],
-        [3, 4],
-    ])
-); // true
+// console.log(
+//     canFinish(5, [
+//         [0, 1],
+//         [0, 2],
+//         [1, 3],
+//         [1, 4],
+//         [3, 4],
+//     ])
+// ); // true
 // console.log(
 //     canFinish(2, [
 //         [1, 0],
 //         [0, 1],
 //     ])
 // ); // false
+console.log(
+    canFinish(5, [
+        [1, 4],
+        [2, 4],
+        [3, 1],
+        [3, 2],
+    ])
+); // true
