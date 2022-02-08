@@ -1,11 +1,12 @@
 const maxSubArray2 = (nums) => {
     let result = nums[0];
-    let currentAnswer = nums[0];
-
-    for (let i = 1; i < nums.length; i++) {
-        currentAnswer = Math.max(nums[i], currentAnswer + nums[i]);
-
-        result = Math.max(result, currentAnswer);
+    let currentMax = 0;
+    for (const num of nums) {
+        if (currentMax < 0) {
+            currentMax = 0;
+        }
+        currentMax += num;
+        result = Math.max(result, currentMax);
     }
     return result;
 };
