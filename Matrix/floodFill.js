@@ -33,7 +33,7 @@ const floodFill = (image, sr, sc, newColor) => {
 
 /*
     Time: O(m * n) or O(n) where n is the number of pixels.
-    Space: O(1)
+    Space: O(n) where n is the size of the callstack
  */
 
 console.log(

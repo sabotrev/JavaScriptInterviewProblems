@@ -10,13 +10,16 @@ const maxProduct = (nums) => {
             continue;
         }
         let tempMax = currentMax * num;
-        currentMax = Math.max(tempMax, currentMin * num, num);
-        currentMin = Math.min(tempMax, currentMin * num, num, currentMin);
+        let tempMin = currentMin * num; // Could be negative
+        currentMax = Math.max(tempMax, tempMin, num);
+        currentMin = Math.min(tempMax, tempMin, num);
+        console.log(`currentMin: ${currentMin}, currentMax: ${currentMax}`);
 
         result = Math.max(result, currentMax);
     }
     return result;
 };
 
-console.log(maxProduct([2, 3, -2, 4])); // 6
+// console.log(maxProduct([2, 3, -2, 4])); // 6
 // console.log(maxProduct([-2, 0, -1])); // 0
+console.log(maxProduct([2, -5, -2, -4, 3])); // 24

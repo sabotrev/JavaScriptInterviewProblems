@@ -6,7 +6,6 @@ const lengthOfLongestSubstring = (s) => {
 
     while (left < s.length && right < s.length) {
         let letter = s[right];
-        console.log(letter);
         // Does NOT have.
         if (!stringSet.has(letter)) {
             stringSet.add(letter);
@@ -14,11 +13,9 @@ const lengthOfLongestSubstring = (s) => {
             right++;
         } else {
             // DOES have.
-            console.log(`deleting: ${s[left]}`);
             stringSet.delete(s[left]);
             left++;
         }
-        console.log(`left: ${left}, right: ${right}`);
     }
 
     return max;
