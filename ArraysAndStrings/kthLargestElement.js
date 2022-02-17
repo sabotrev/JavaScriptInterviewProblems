@@ -1,53 +1,71 @@
-/*
-    Heapify
-        Time: O(log (n))
- */
-const heapify = (arr, i, arrLength) => {
-    let max = i;
-    let left = 2 * i + 1;
-    let right = 2 * i + 2;
-
-    if (left < arrLength && arr[left] > arr[max]) {
-        max = left;
-    }
-    if (right < arrLength && arr[right] > arr[max]) {
-        max = right;
+class MinHeap {
+    constructor(capacity) {
+        this.capacity = capacity;
+        this.value = [];
     }
 
-    // If max has changed then swap
-    if (max !== i) {
-        let temp = arr[i];
-        arr[i] = arr[max];
-        arr[max] = temp;
-        heapify(arr, max, arrLength);
+    add(val) {
+        this.value.push(val);
+        this.bubbleUp(this.value.length - 1);
+        if (this.value.length > this.capacity) {
+            this.remove();
+        }
     }
-    return arr;
-};
 
-/*
-    Build Max Heap
-        Time: O(n)
- */
-const buildMaxHeap = (arr) => {
-    let mid = Math.floor(arr.length / 2) - 1;
-    while (mid >= 0) {
-        heapify(arr, mid, arr.length);
-        mid -= 1;
+    remove() {
+        this.swap(0, this.value.length - 1);
+        const min = this.value.pop();
+        this.trickleDown(0);
+        return min;
     }
-    return arr;
-};
 
-const kthLargestElement = (nums, k) => {
-    const maxHeap = buildMaxHeap(nums); // Time: O(n)
-    console.log(maxHeap);
-    let max = 0;
-    for (let i = 0; i < k; i++) {
-        max = maxHeap[0];
-        maxHeap[0] = maxHeap[maxHeap.length - 1];
-        maxHeap.length--;
-        heapify(maxHeap, 0, maxHeap.length); // rebuild heap
+    bubbleUp(index) {
+        const parent = Math.floor((index - 1) / 2);
+        let max = index;
+
+        if (parent >= 0 && this.value[parent] > this.value[max]) {
+            max = parent;
+        }
+
+        if (max !== index) {
+            this.swap(max, index);
+            this.bubbleUp(max);
+        }
     }
-    return max;
+
+    trickleDown(idx) {
+        const leftChild = 2 * idx + 1;
+        const rightChild = 2 * idx + 2;
+        let min = idx;
+
+        if (
+            leftChild < this.value.length &&
+            this.value[leftChild] < this.value[min]
+        )
+            min = leftChild;
+        if (
+            rightChild < this.value.length &&
+            this.value[rightChild] < this.value[min]
+        )
+            min = rightChild;
+
+        if (min !== idx) {
+            this.swap(min, idx);
+            this.trickleDown(min);
+        }
+    }
+
+    swap(i, j) {
+        [this.value[i], this.value[j]] = [this.value[j], this.value[i]];
+    }
+}
+
+const findKthLargest = (nums, k) => {
+    const minHeap = new MinHeap(k);
+
+    for (let n of nums) minHeap.add(n);
+
+    return minHeap.remove();
 };
 
 /*
@@ -55,6 +73,6 @@ const kthLargestElement = (nums, k) => {
     Space: O(1)
  */
 
-// console.log(kthLargestElement([9, 8, 5, 3, 2, 1], 2)); // 8
-console.log(kthLargestElement([3, 2, 1, 5, 6, 4], 2)); // 5
-// console.log(kthLargestElement([3,2,3,1,2,4,5,5,6], 4)); // 4
+console.log(findKthLargest([9, 8, 5, 3, 2, 1], 2)); // 8
+console.log(findKthLargest([3, 2, 1, 5, 6, 4], 2)); // 5
+console.log(findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4)); // 4
