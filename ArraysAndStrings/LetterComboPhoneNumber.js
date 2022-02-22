@@ -36,5 +36,10 @@ const letterCombinations = (digits) => {
     return result;
 };
 
+/*
+    Time: O(4^n)
+    Soace: O(n) where n is length of digits.
+ */
+
 // console.log(letterCombinations('2')); // ["a","b","c"]
 console.log(letterCombinations('23')); // ["ad","ae","af","bd","be","bf","cd","ce","cf"]

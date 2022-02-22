@@ -8,13 +8,20 @@ const numDecodings = (s) => {
     for (let i = 2; i <= s.length; i++) {
         let oneDigit = parseInt(s.substring(i - 1, i));
         let twoDigit = parseInt(s.substring(i - 2, i));
+        /*
+            dp[i] = dp[i-1] + dp[i-2]
+            BUT, it's possible that oneDigit or twoDigit CANNOT be used.
+         */
         if (oneDigit >= 1) {
+            console.log(oneDigit);
             dp[i] += dp[i - 1];
         }
 
         if (twoDigit >= 10 && twoDigit <= 26) {
+            console.log(twoDigit);
             dp[i] += dp[i - 2];
         }
+        console.log(dp);
     }
     return dp[s.length];
 };
