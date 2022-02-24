@@ -12,11 +12,23 @@ const isValid = (s) => {
     for (const char of s) {
         if (char === '(' || char === '[' || char === '{') {
             stack.push(char);
-        } else if (char === ')' && !stack.isEmpty() && stack.peek() === '(') {
+        } else if (
+            char === ')' &&
+            !stack.isEmpty() &&
+            stack.peekEnd() === '('
+        ) {
             stack.pop();
-        } else if (char === ']' && !stack.isEmpty() && stack.peek() === '[') {
+        } else if (
+            char === ']' &&
+            !stack.isEmpty() &&
+            stack.peekEnd() === '['
+        ) {
             stack.pop();
-        } else if (char === '}' && !stack.isEmpty() && stack.peek() === '{') {
+        } else if (
+            char === '}' &&
+            !stack.isEmpty() &&
+            stack.peekEnd() === '{'
+        ) {
             stack.pop();
         } else {
             return false;

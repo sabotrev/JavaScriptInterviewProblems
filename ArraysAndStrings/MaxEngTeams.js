@@ -41,5 +41,6 @@ const maxEngTeams = (teamSize, maxDiff, skillArr) => {
     return teamsCount;
 };
 
-console.log(maxEngTeams(1, 1, [34, 5, 72, 48, 15, 2])); // 6
-console.log(maxEngTeams(3, 20, [34, 5, 72, 48, 15, 2])); // 1, [[2, 5, 15]]
+// console.log(maxEngTeams(1, 1, [34, 5, 72, 48, 15, 2])); // 6
+// console.log(maxEngTeams(3, 20, [34, 5, 72, 48, 15, 2])); // 1, [[2, 5, 15]]
+console.log(maxEngTeams(3, 25, [1, 7, 18, 32, 65, 72, 90, 98, 100, 113, 146])); // 3
