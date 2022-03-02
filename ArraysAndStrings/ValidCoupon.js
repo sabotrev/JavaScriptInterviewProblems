@@ -8,7 +8,7 @@ const findValueDiscountCoupon = (discounts) => {
     for (const discount of discounts) {
         let stack = [discount[0]];
         for (let i = 1; i < discount.length; i++) {
-            let top = stack.peekEnd();
+            let top = stack.peek();
             if (discount[i] === top) {
                 stack.pop();
             } else {
