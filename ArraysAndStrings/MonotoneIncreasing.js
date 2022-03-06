@@ -25,5 +25,11 @@ const minFlipsMonoIncr = (s) => {
     return result;
 };
 
+/*
+    Time: O(n), where n is length of s.
+    Space: O(n)
+ */
+
+console.log(minFlipsMonoIncr('00110')); // 1
 // console.log(minFlipsMonoIncr('010110')); // 2
 console.log(minFlipsMonoIncr('00011000')); // 2
