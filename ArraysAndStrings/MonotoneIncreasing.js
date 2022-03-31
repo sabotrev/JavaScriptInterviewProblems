@@ -9,6 +9,7 @@ const minFlipsMonoIncr = (s) => {
     let prefixOnes = new Array(s.length + 1).fill(0);
     let postfixZeroes = new Array(s.length + 1).fill(0);
     for (let i = 0; i < s.length; i++) {
+        console.log(`i: ${i + 1}`);
         prefixOnes[i + 1] = prefixOnes[i] + (s[i] === '1' ? 1 : 0);
     }
     for (let i = s.length - 1; i >= 0; i--) {
@@ -32,4 +33,4 @@ const minFlipsMonoIncr = (s) => {
 
 console.log(minFlipsMonoIncr('00110')); // 1
 // console.log(minFlipsMonoIncr('010110')); // 2
-console.log(minFlipsMonoIncr('00011000')); // 2
+// console.log(minFlipsMonoIncr('00011000')); // 2

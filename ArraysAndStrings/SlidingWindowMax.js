@@ -6,33 +6,27 @@ Array.prototype.peekEnd = function () {
 };
 
 const maxSlidingWindow = (nums, k) => {
-    let left = 0;
-    let right = 0;
-    let res = [];
-    let queue = [];
-    while (right < nums.length) {
-        let num = nums[right];
-        // While smaller values exists in queue, pop them off.
-        while (!queue.isEmpty() && queue.peekEnd() < num) {
+    const queue = []; // stores *indices*
+    const res = [];
+    for (let i = 0; i < nums.length; i++) {
+        while (queue && nums[queue.peekEnd()] <= nums[i]) {
             queue.pop();
         }
-        queue.push(right);
-
-        // If left is out of bounds then remove it from the window
-        if (left > queue[0]) {
-            // Pop from left
+        queue.push(i);
+        console.log(queue);
+        // // remove first element if it's outside the window
+        if (queue[0] === i - k) {
             queue.shift();
         }
-
-        if (right + 1 >= k) {
+        // if window has k elements add to results (first k-1 windows have < k elements because we start from empty window and add 1 element each iteration)
+        if (i >= k - 1) {
             res.push(nums[queue[0]]);
-            left++;
         }
-        right++;
     }
-
     return res;
 };
 
 // console.log(maxSlidingWindow([1, 3, -1, -3, 5, 3, 6, 7], 3)); // [3,3,5,5,6,7]
-console.log(maxSlidingWindow([7, 2, 4], 2)); // [7,4]
+// console.log(maxSlidingWindow([7, 2, 4], 2)); // [7,4]
+console.log(maxSlidingWindow([1, 3, 2, 5, 8, 7], 3)); // [3,5,8,8]
+// console.log(maxSlidingWindow([9, 10, 9, -7, -4, -8, 2, -6], 5));

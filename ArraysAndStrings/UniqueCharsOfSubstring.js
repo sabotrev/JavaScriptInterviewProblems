@@ -4,7 +4,11 @@ const uniqueLetterString = (s) => {
     for (let i = 1; i <= s.length; i++) {
         let hashMap = new Map();
         let duplicates = 0;
+        console.log(`i: ${i}`);
+
         for (let j = i - 1; j >= 0; j--) {
+            console.log(`j: ${j}`);
+
             if (!hashMap.has(s[j])) {
                 hashMap.set(s[j], 1);
             } else {
@@ -13,12 +17,14 @@ const uniqueLetterString = (s) => {
                     duplicates++;
                 }
             }
+            console.log(hashMap);
             res += hashMap.size - duplicates;
         }
+        console.log();
     }
     return res;
 };
 
 console.log(uniqueLetterString('ABC')); // 10
 console.log(uniqueLetterString('ABA')); // 8
-console.log(uniqueLetterString('LEETCODE')); // 8
+console.log(uniqueLetterString('LEETCODE')); // 92

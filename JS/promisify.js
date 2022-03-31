@@ -12,7 +12,7 @@
 const promisify = (fn) => {
     return function (...args) {
         return new Promise((resolve, reject) => {
-            function callback(result) {
+            function callback(resultz) {
                 resolve(result);
             }
 

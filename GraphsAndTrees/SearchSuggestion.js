@@ -71,6 +71,11 @@ const suggestedProducts = (products, searchWord) => {
     return res;
 };
 
+/*
+    Time: O(m) where m is time to build the trie.
+    Space: O(n) where n is amount of nodes in the tree.
+ */
+
 console.log(
     suggestedProducts(
         ['mobile', 'mouse', 'moneypot', 'monitor', 'mousepad'],

@@ -1,4 +1,4 @@
-class TrieNode {
+`class TrieNode {
     constructor() {
         this.children = new Map();
         this.isWord = false;

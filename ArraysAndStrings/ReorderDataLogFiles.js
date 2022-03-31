@@ -3,42 +3,48 @@ String.prototype.isLetter = function () {
 };
 
 const reorderLogFiles = (logs) => {
-    return logs.sort((a, b) => {
-        let aArr = a.split(' ');
-        let bArr = b.split(' ');
-        let aIsLetter = aArr[1].isLetter();
-        let bIsLetter = bArr[1].isLetter();
-        // If types are the same
-        if (aIsLetter && bIsLetter) {
-            // Compare by
-            let subA = aArr.slice(1);
-            let subB = bArr.slice(1);
-            let stringA = subA.join(' ');
-            let stringB = subB.join(' ');
-            if (stringA > stringB) {
+    let reorderedLogs = [...logs];
+    reorderedLogs.sort((a, b) => {
+        let aIsLetterLog = a.at(-1).isLetter();
+        let bIsLetterLog = b.at(-1).isLetter();
+
+        // If both letter log then sort by contents/identifiers
+        if (aIsLetterLog && bIsLetterLog) {
+            let aContents = a.split(' ').slice(1);
+            let bContents = b.split(' ').slice(1);
+            if (aContents > bContents) {
                 return 1;
-            } else if (stringA < stringB) {
+            } else if (aContents < bContents) {
                 return -1;
             } else {
-                let tempA = aArr[0];
-                let tempB = bArr[0];
-                if (tempA > tempB) {
+                let aIdentifier = a.split(' ').slice(0, 1);
+                let bIdentifier = b.split(' ').slice(0, 1);
+                if (aIdentifier > bIdentifier) {
                     return 1;
-                } else if (tempA < tempB) {
+                } else if (aIdentifier < bIdentifier) {
                     return -1;
+                } else {
+                    return 0;
                 }
-                return 0;
             }
-        } else if (!aIsLetter && bIsLetter) {
-            return 1;
-        } else if (aIsLetter && !bIsLetter) {
-            return -1;
+        } else if (aIsLetterLog || bIsLetterLog) {
+            // Sort letter log first
+            if (aIsLetterLog) {
+                return -1;
+            } else {
+                return 1;
+            }
         } else {
-            // Both are digits
             return 0;
         }
     });
+    return reorderedLogs;
 };
+
+/*
+    Time: O(m * n * log(n)) where m is length of log and n is logs in list
+    Space:  O(m * log(n))
+ */
 
 console.log(
     reorderLogFiles([
